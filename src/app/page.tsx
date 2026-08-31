@@ -1,19 +1,23 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSession, signIn, signOut } from "next-auth/react";
 
 export default function Home() {
-  const [data, setData] = useState<{ hello: string } | null>(null);
+    const { data: session } = useSession();
 
-  useEffect(() => {
-    fetch("/api/hello")
-      .then((res) => res.json())
-      .then((data) => setData(data));
-  }, []);
+    return (
+        <div>
+            <h1>GeeksforGeeks</h1>
 
-  return (
-    <main>
-      <h1>{data ? "Starnoh learning here : " + data.hello : "Loading..."}</h1>
-    </main>
-  );
+            {session ? (
+                <button onClick={() => signOut()}>
+                    Sign Out
+                </button>
+            ) : (
+                <button onClick={() => signIn("google")}>
+                    Sign In with Google
+                </button>
+            )}
+        </div>
+    );
 }
