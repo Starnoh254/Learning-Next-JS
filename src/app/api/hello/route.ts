@@ -5,3 +5,10 @@ export async function GET() {
     hello: "HELLO WORLD",
   });
 }
+
+export async function POST(request : Request) {
+  const body = await request.json();
+  return NextResponse.json({
+    message: `Hello ${body.name}`,
+  });
+}
